@@ -1,5 +1,4 @@
 #include <iostream>
-#include <queue>
 using namespace std;
 
 class node
@@ -44,47 +43,34 @@ node *build_tree_from_traversal(int *ino, int *pre, int s, int e)
     return root;
 }
 
-void bfs2(node *root)
+void printPostOrder(node *root)
 {
-    queue<node *> q;
-    q.push(root);
-    q.push(NULL);
-    while (!q.empty())
+    if (root == NULL)
     {
-        node *f = q.front();
-        if (f == NULL)
-        {
-            cout << endl;
-            q.pop();
-            if (!q.empty())
-            {
-                q.push(NULL);
-            }
-        }
-        else
-        {
-            cout << f->data << " ";
-            q.pop();
-            //left is not NULL
-            if (f->left)
-            {
-                q.push(f->left);
-            }
-            //right is not NULL
-            if (f->right)
-            {
-                q.push(f->right);
-            }
-        }
+        return;
     }
+    //print the left and then right and then root
+    printPostOrder(root->left);
+    printPostOrder(root->right);
+    cout << root->data << " ";
 }
 
 int main()
 {
-    int pre[] = {1, 2, 3, 4, 8, 5, 6, 7};
-    int ino[] = {3, 2, 8, 4, 1, 6, 7, 5};
-    int n = 8;
+    int n;
+    cin >> n;
+    int pre[1001];
+    int ino[1001];
+    for (int i = 0; i < n; i++)
+    {
+        cin >> ino[i];
+    }
+    for (int i = 0; i < n; i++)
+    {
+        cin >> pre[i];
+    }
+
     node *root = build_tree_from_traversal(ino, pre, 0, n - 1);
-    bfs2(root);
+    printPostOrder(root);
     return 0;
 }
